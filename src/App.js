@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import './App.css';
 
 
@@ -7,24 +8,61 @@ class App extends React.Component{
   constructor(){
     super()
       this.state = {
-        todos: []
+        todos: [],
+        isFetching: true
       }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
+  componentDidMount() {
+    fetch("https://testreacttodoapp.herokuapp.com/todos")
+      .then(response => response.json())
+      .then(todos =>
+        this.setState({
+          todos: todos,
+          isFetching: false
+        })
+      );
+  }
+
+
   handleSubmit = (e) => {
     const newTodo = e.target.querySelector("input").value
+    e.target.querySelector("input").value = "";
 
     console.log(newTodo);
-     
-    this.setState(
-       {
-        todos: this.state.todos.concat({title: newTodo, id:this.state.todos.length + 1})
-       }
-    )
+    console.log(this);
 
+    axios
+      .post("https://testreacttodoapp.herokuapp.com/todos", {title: newTodo})
+      .then(response => response.data)
+      .then(addedTodo =>
+        this.setState({
+          todos: [
+            ...this.state.todos,
+            {
+              id: addedTodo.id,
+              title: addedTodo.title
+            }
+          ]
+        })
+      );
+      console.log(newTodo);
+      console.log(this);
     e.preventDefault();
   }
+
+  handleDelete(id) {
+    axios
+      .delete("https://testreacttodoapp.herokuapp.com/todos/" + id)
+      .then(response => response.data)
+      .then(deletedTodo => {
+        this.setState({
+          todos: this.state.todos.filter(todo => todo.id !== deletedTodo.id)
+        });
+      });
+  }
+
 
   render(){
     console.log(this.state.todos)
@@ -35,13 +73,19 @@ class App extends React.Component{
             <input type="text" placeholder="What needs to be done?" />
           </form>
 
-          <ul>
-          {this.state.todos.map(todo => {
-            return( 
-              <li key={todo.id}>{todo.title}</li>
-            )
-          })}
-          </ul>
+
+          {this.state.isFetching ? (
+          <p>Fetching todos...</p>
+          ) : (
+            <ul>
+              {this.state.todos.map(todo => (
+                  <li key={todo.id}>
+                    {todo.title}{""}
+                    <button onClick = {e => this.handleDelete(todo.id)}>X</button>
+                  </li> 
+              ))}
+            </ul>
+          )}
         </div>
       );
     }
