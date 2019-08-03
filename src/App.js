@@ -2,8 +2,6 @@ import React from 'react';
 import axios from 'axios';
 import './App.css';
 
-
-
 class App extends React.Component{ 
   constructor(){
     super()
@@ -30,9 +28,6 @@ class App extends React.Component{
     const newTodo = e.target.querySelector("input").value
     e.target.querySelector("input").value = "";
 
-    console.log(newTodo);
-    console.log(this);
-
     axios
       .post("https://testreacttodoapp.herokuapp.com/todos", {title: newTodo})
       .then(response => response.data)
@@ -47,8 +42,11 @@ class App extends React.Component{
           ]
         })
       );
-      console.log(newTodo);
-      console.log(this);
+    console.log(newTodo);
+    console.log(this);
+
+    window.alert('Succesfully added');
+
     e.preventDefault();
   }
 
@@ -81,7 +79,7 @@ class App extends React.Component{
               {this.state.todos.map(todo => (
                   <li key={todo.id}>
                     {todo.title}{""}
-                    <button onClick = {e => this.handleDelete(todo.id)}>X</button>
+                    <button onClick = {e => this.handleDelete(todo.id)}>DELETE</button>
                   </li> 
               ))}
             </ul>
