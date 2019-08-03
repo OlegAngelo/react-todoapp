@@ -73,7 +73,7 @@ class App extends React.Component{
 
 
           {this.state.isFetching ? (
-          <p>Fetching todos...</p>
+          <p>Please wait...</p>
           ) : (
             <ul>
               {this.state.todos.map(todo => (
