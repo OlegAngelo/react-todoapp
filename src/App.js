@@ -11,7 +11,7 @@ class App extends React.Component{
       }
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-
+//fetching api
   componentDidMount() {
     fetch("https://testreacttodoapp.herokuapp.com/todos")
       .then(response => response.json())
@@ -23,7 +23,7 @@ class App extends React.Component{
       );
   }
 
-
+//mo handle sa adding to do list
   handleSubmit = (e) => {
     const newTodo = e.target.querySelector("input").value
     e.target.querySelector("input").value = "";
@@ -45,11 +45,9 @@ class App extends React.Component{
     console.log(newTodo);
     console.log(this);
 
-    window.alert('Succesfully added');
-
-    e.preventDefault();
+    e.preventDefault(); //prevent load sa website
   }
-
+//handles delte button
   handleDelete(id) {
     axios
       .delete("https://testreacttodoapp.herokuapp.com/todos/" + id)
@@ -61,7 +59,7 @@ class App extends React.Component{
       });
   }
 
-
+//UI
   render(){
     console.log(this.state.todos)
       return (
