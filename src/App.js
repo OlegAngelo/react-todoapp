@@ -23,7 +23,7 @@ class App extends React.Component{
       );
   }
 
-//mo handle sa adding to do list
+//handles adding lists
   handleSubmit = e => {
     const newTodo = e.target.querySelector("input").value
     e.target.querySelector("input").value = "";
@@ -42,12 +42,11 @@ class App extends React.Component{
           ]
         })
       );
-    //console.log(newTodo);
-    //console.log(this);
-
-    e.preventDefault(); //prevent load from website
+    //prevents loading browsers
+    e.preventDefault(); 
   }
-//handles delte button
+
+//handles delete button
   handleDelete(id) {
     axios
       .delete("https://todoapp-react-angelo.herokuapp.com/todos/" + id)
