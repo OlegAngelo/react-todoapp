@@ -13,7 +13,7 @@ class App extends React.Component{
   }
 //fetching api
   componentDidMount() {
-    fetch("https://testreacttodoapp.herokuapp.com/todos")
+    fetch("https://todoapp-react-angelo.herokuapp.com/todos")
       .then(response => response.json())
       .then(todos =>
         this.setState({
@@ -24,12 +24,12 @@ class App extends React.Component{
   }
 
 //mo handle sa adding to do list
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     const newTodo = e.target.querySelector("input").value
     e.target.querySelector("input").value = "";
 
     axios
-      .post("https://testreacttodoapp.herokuapp.com/todos", {title: newTodo})
+      .post("https://todoapp-react-angelo.herokuapp.com/todos", {title: newTodo})
       .then(response => response.data)
       .then(addedTodo =>
         this.setState({
@@ -42,15 +42,15 @@ class App extends React.Component{
           ]
         })
       );
-    console.log(newTodo);
-    console.log(this);
+    //console.log(newTodo);
+    //console.log(this);
 
-    e.preventDefault(); //prevent load sa website
+    e.preventDefault(); //prevent load from website
   }
 //handles delte button
   handleDelete(id) {
     axios
-      .delete("https://testreacttodoapp.herokuapp.com/todos/" + id)
+      .delete("https://todoapp-react-angelo.herokuapp.com/todos/" + id)
       .then(response => response.data)
       .then(deletedTodo => {
         this.setState({
@@ -76,7 +76,7 @@ class App extends React.Component{
             <ul>
               {this.state.todos.map(todo => (
                   <li key={todo.id}>
-                    {todo.title}{""}
+                    {todo.title}{" "}
                     <button onClick = {e => this.handleDelete(todo.id)}>DELETE</button>
                   </li> 
               ))}
